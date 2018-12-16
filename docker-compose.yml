@@ -1,0 +1,35 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - mysqldata:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - '3306:3306'
+  elasticsearch:
+    build:
+      context: .
+      dockerfile: ./es/Dockerfile
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+  kibana:
+    image: kibana:6.4.2
+    ports:
+      - "5601:5601"
+  redis:
+    image: redis:2.8.23
+    volumes:
+      - redisdata:/data
+    ports:
+      - "6379:6379"
+volumes:
+  mysqldata:
+    external: false
+  esdata:
+    external: false
+  redisdata:
+    external: false
