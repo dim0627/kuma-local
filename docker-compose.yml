@@ -26,6 +26,10 @@ services:
       - redisdata:/data
     ports:
       - "6379:6379"
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211:11211"
 volumes:
   mysqldata:
     external: false
