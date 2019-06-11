@@ -39,6 +39,22 @@ make
 
 Move to the repository of Kuma first. Keep containers are running.
 
+## Install mecab.
+
+```
+brew install mecab mecab-ipadic
+```
+
+## Install nodenv(includes node-build).
+
+https://github.com/nodenv/nodenv
+
+Install node versions configured at `.node-version`.
+
+```
+nodenv install $(cat .node-version)
+```
+
 ## Install rbenv(with ruby-build recommended).
 
 https://github.com/rbenv/rbenv
@@ -68,6 +84,7 @@ cp config/application.yml.sample config/application.yml
 ## Make up local environment.
 
 ```
+yarn
 bundle install
 bundle exec rake db:setup
 EXTRA_SEED=1 bundle exec rake db:seed
