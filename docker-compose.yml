@@ -6,6 +6,7 @@ services:
       - mysqldata:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
+    command: --sql-mode=NO_ENGINE_SUBSTITUTION
     ports:
       - '3306:3306'
   elasticsearch:
