@@ -162,8 +162,10 @@ RAILS_ENV=production NODE_ENV=production bin/webpack
 
 ```
 # Open another terminal
+cd path/to/kuma
 bin/rails c
 User.last.confirm
+exit
 # Then the last Sign-up is confirmed
 ```
 
