@@ -109,6 +109,8 @@ cp /path/to/kuma/.env.development .env.development.local
 
 YAML_VAULT_PASSPHRASE='UV[manh+p4W3J#H.0h$u'
 DATABASE_URL='mysql2://root:root@lvh.me:3306/kuma_development'
+ELASTICSEARCH_URL='http://lvh.me:9200'
+REDIS_URL='redis://lvh.me:6379'
 STRIPE_SIGNING_SECRET='whsec_WWp6LumeW19uY66YUeZppONMdmkXszg0'
 ALLOWED_HOSTS='lvh.me,trek.lvh.me,admin.lvh.me,f035eadea904.ngrok.io'
 
