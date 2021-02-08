@@ -1,4 +1,13 @@
-# What is this?
+# kuma-local
+
+1. [What is this?](#What-is-this?)
+2. [Setting up kuma](#Setting-up-kuma)
+3. [Getting started](#Getting-started)
+4. [Troubleshooting](#Troubleshooting)
+
+
+
+## What is this?
 
 Development environment for kuma.
 
@@ -9,25 +18,31 @@ Including...
 * Elasticsearch
 * Kibana
 
-# Getting started.
+## Getting started
 
-## Install Docker for Mac.
+### Install Docker for Mac
 
 https://docs.docker.com/docker-for-mac/
 
-## Install Xcode command line tools.
+### Install Xcode command line tools.
 
 ```
 xcode-select --install
 ```
 
-## Install local dependencies.
+### Install local dependencies.
 
 ```
 brew install yarn mysql
 ```
 
-## Run containers.
+### Change directory to `/kuma-local`.
+
+```
+cd /path/to/kuma-loca
+```
+
+### Run containers.
 
 Run setup commands when you run first time. This commands run as foreground process.
 
@@ -35,17 +50,23 @@ Run setup commands when you run first time. This commands run as foreground proc
 make
 ```
 
-# Setting up kuma.
+## Setting up kuma.
 
 Move to the repository of Kuma first. Keep containers are running.
 
-## Install mecab.
+### Install mecab.
 
 ```
 brew install mecab mecab-ipadic
 ```
 
-## Install nodenv(includes node-build).
+### Change directory to `/kuma`
+
+```
+cd /path/to/kuma
+```
+
+### Install nodenv(includes node-build).
 
 https://github.com/nodenv/nodenv
 
@@ -55,7 +76,7 @@ Install node versions configured at `.node-version`.
 nodenv install $(cat .node-version)
 ```
 
-## Install rbenv(with ruby-build recommended).
+### Install rbenv(with ruby-build recommended).
 
 https://github.com/rbenv/rbenv
 
@@ -65,75 +86,114 @@ Install ruby versions configured at `.ruby-version`.
 rbenv install $(cat .ruby-version)
 ```
 
-## Install Bundler.
+### Install Bundler.
 
 ```
 gem install bundler
 ```
 
-## Setting up credential values.
+### Setting up credential values.
 
 ```
-vi config/application.yml
+vi /path/to/kuma/config/application.yml
 
 # Comment out existing items and add:
-> db_username: "root"
-> db_password: "root"
-> db_host: 127.0.0.1
+db_username: "root"
+db_password: "root"
+db_host: 127.0.0.1
 
-cp .env.development .env.development.local
+cp /path/to/kuma/.env.development .env.development.local
 
 # Delete all the contents of the file and change to the following
-> YAML_VAULT_PASSPHRASE='UV[manh+p4W3J#H.0h$u'
-> DATABASE_URL='mysql2://root:root@lvh.me:3306/kuma_development'
-> ELASTICSEARCH_URL='http://lvh.me:9200'
-> REDIS_URL='redis://lvh.me:6379'
+# latest: https://github.com/Lang-8/kuma/blob/master/.env.development
+
+YAML_VAULT_PASSPHRASE='UV[manh+p4W3J#H.0h$u'
+DATABASE_URL='mysql2://root:root@lvh.me:3306/kuma_development'
+ELASTICSEARCH_URL='http://lvh.me:9200'
+REDIS_URL='redis://lvh.me:6379'
+STRIPE_SIGNING_SECRET='whsec_WWp6LumeW19uY66YUeZppONMdmkXszg0'
+ALLOWED_HOSTS='lvh.me,trek.lvh.me,admin.lvh.me,f035eadea904.ngrok.io'
+
+vi /path/to/kuma/Procfile
+
+web: rails server -b 0.0.0.0 -p 3000
+frontend: bin/webpack-dev-server
 ```
 
-## Reset rails settings
-```
-bin/rails db:migrate:reset
-```
-
-## Make up local environment.
+### Make up local environment.
 
 ```
 yarn
 bundle config --local build.mysql2 "--with-ldflags=-L/usr/local/opt/openssl/lib"
 bundle install
+```
+
+### Reset rails settings
+
+```
+bin/rails db:migrate:reset
+```
+
+### Make up DB of `kuma-local` environment.
+
+```
 bundle exec rake db:setup
 EXTRA_SEED=1 bundle exec rake db:seed
 ```
 
-## Make Procfile.
-
-```
-web: rails server -b 0.0.0.0 -p 3000
-frontend: bin/webpack-dev-server
-```
-
-## Run as a development mode.
+### Run as a development mode.
 
 ```
 foreman start
 # Go http://lvh.me:3000/
 ```
 
-## How to see the sing-up e-mail.
+### How to see the sing-up e-mail.
 
 ```
 # Go http://lvh.me:3000/letter_opener
 ```
 
-### If it dosen't work.
+### How to only deploy to front-end.
 
-```
-# Open another terminal
-bin/rails c
-User.last.confirm
-# Then the last Sign-up is confirmed
-```
-## How to only deploy to front-end
 ```
 RAILS_ENV=production NODE_ENV=production bin/webpack
 ```
+
+## Troubleshooting.
+
+#### If it dosen't work `http://lvh.me:3000/letter_opener`
+
+```
+# Open another terminal
+cd path/to/kuma
+bin/rails c
+User.last.confirm
+exit
+# Then the last Sign-up is confirmed
+```
+
+### If it fails during `bundle install`
+
+#### For the following error
+
+```
+ERROR: Can't install RMagick 4.1.1.
+Can't find the ImageMagick library or one of the dependent libraries.
+Check the mkmf.log file for more detailed information.
+
+// etc...
+
+An error occurred while installing rmagick (4.1.1), and Bundler cannot
+continue.
+Make sure that `gem install rmagick -v '4.1.1' --source 'https://rubygems.org/'`
+succeeds before bundling.
+```
+
+Downgrade `Imagemagick` to version of ` 6`.
+
+```
+brew uninstall imagemagick
+brew install imagemagick@6
+```
+
