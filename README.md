@@ -148,6 +148,31 @@ foreman start
 # Go http://lvh.me:3000/
 ```
 
+### How to see the sing-up e-mail.
+
+```
+# Go http://lvh.me:3000/letter_opener
+```
+
+### How to only deploy to front-end.
+
+```
+RAILS_ENV=production NODE_ENV=production bin/webpack
+```
+
+## Troubleshooting.
+
+#### If it dosen't work `http://lvh.me:3000/letter_opener`
+
+```
+# Open another terminal
+cd path/to/kuma
+bin/rails c
+User.last.confirm
+exit
+# Then the last Sign-up is confirmed
+```
+
 ### If it fails during `bundle install`
 
 #### For the following error
