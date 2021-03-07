@@ -197,3 +197,18 @@ brew uninstall imagemagick
 brew install imagemagick@6
 ```
 
+### If it fails during `foreman start`
+
+#### For the following error
+
+```
+No such file or directory @ rb_check_realpath_internal - /Users/username/git/lang-8/kuma/schema/assets/schema.yml (Errno::ENOENT) 
+```
+
+Syncand Update git submodule
+
+```
+cd /path/to/kuma
+git submodule init
+git submodule update
+```
