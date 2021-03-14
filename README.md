@@ -5,8 +5,6 @@
 3. [Getting started](#Getting-started)
 4. [Troubleshooting](#Troubleshooting)
 
-
-
 ## What is this?
 
 Development environment for kuma.
@@ -148,7 +146,7 @@ foreman start
 # Go http://lvh.me:3000/
 ```
 
-### How to see the sing-up e-mail.
+### How to see the sign-up e-mail.
 
 ```
 # Go http://lvh.me:3000/letter_opener
