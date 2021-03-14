@@ -175,7 +175,7 @@ exit
 
 ### If it fails during `bundle install`
 
-#### For the following error
+#### ERROR: Can't install RMagick 4.1.1.
 
 ```
 ERROR: Can't install RMagick 4.1.1.
@@ -197,9 +197,44 @@ brew uninstall imagemagick
 brew install imagemagick@6
 ```
 
+### If it fails during `EXTRA_SEED=1 bundle exec rake db:seed`
+
+#### Paperclip::Errors::CommandNotFoundError: Could not run the identify command. Please install ImageMagick.
+
+```
+brew uninstall imagemagick
+brew install imagemagick@6
+brew upgrade imagemagick@6
+```
+
+#### LoadError: dlopen(.../gems/rmagick-4.2.2/lib/RMagick2.bundle)
+
+If the following error:
+```
+warning: parser/current is loading parser/ruby27, which recognizes
+warning: 2.7.2-compliant syntax, but you are running 2.7.1.
+warning: please see https://github.com/whitequark/parser#compatibility-with-ruby-mri.
+rake aborted!
+LoadError: dlopen(/Users/user/.rbenv/versions/2.7.1/lib/ruby/gems/2.7.0/gems/rmagick-4.2.2/lib/RMagick2.bundle, 9): Library not loaded: /usr/local/opt/imagemagick@6/lib/libMagickCore-6.Q16.6.dylib
+Referenced from: /Users/user/.rbenv/versions/2.7.1/lib/ruby/gems/2.7.0/gems/rmagick-4.2.2/lib/RMagick2.bundle
+Reason: image not found - /Users/user/.rbenv/versions/2.7.1/lib/ruby/gems/2.7.0/gems/rmagick-4.2.2/lib/RMagick2.bundle
+/Users/user/git/lang-8/kuma/config/application.rb:20:in <top (required)>' /Users/user/git/lang-8/kuma/Rakefile:4:inrequire'
+/Users/user/git/lang-8/kuma/Rakefile:4:in <top (required)>' /Users/user/.rbenv/versions/2.7.1/bin/bundle:23:inload'
+/Users/user/.rbenv/versions/2.7.1/bin/bundle:23:in `<main>'
+(See full trace by running task with --trace)
+```
+
+reinstall rmagick
+
+```
+bundle exec gem uninstall rmagick
+PKG_CONFIG_PATH=/usr/local/opt/imagemagick@6/lib/pkgconfig bundle install --path vendor/bundle
+```
+
+
 ### If it fails during `foreman start`
 
-#### For the following error
+#### No such file or directory ... /schema.yml (Errno::ENOENT)
 
 ```
 No such file or directory @ rb_check_realpath_internal - /Users/username/git/lang-8/kuma/schema/assets/schema.yml (Errno::ENOENT) 
